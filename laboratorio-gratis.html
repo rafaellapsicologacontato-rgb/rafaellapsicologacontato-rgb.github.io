@@ -1,0 +1,510 @@
+<title>Laboratório de cenas · Fase grátis</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,500;0,600;1,500&family=Poppins:wght@400;500;600&display=swap">
+<style>
+/* Layout: trilha de 8 fases em coluna única, estilo caderno de jogo; cartões grandes, toque fácil no celular */
+:root{
+  --bg:#FBF6EF; --surface:#FFFFFF; --surface2:#F4EBDD; --ink:#3A2A1E; --muted:#6F5C4C; --line:#E6D8C4;
+  --teal:#2F6B63; --mustard:#C98F1E; --rose:#B15C6E;
+  --tealsoft:#DCEBE7; --mustardsoft:#F6E7C6; --rosesoft:#F3DCE1;
+  --on-teal:#FFFFFF; --on-mustard:#3A2A1E; --on-rose:#FFFFFF;
+  --display:'Lora',Georgia,serif; --ui:'Poppins',system-ui,-apple-system,'Segoe UI',sans-serif;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#1D1611; --surface:#2A2019; --surface2:#33271E; --ink:#F4EADD; --muted:#C2AF9C; --line:#4A3A2D;
+    --teal:#6DB3A6; --mustard:#E3AE45; --rose:#E096A6;
+    --tealsoft:#23403B; --mustardsoft:#463714; --rosesoft:#4A2A33;
+    --on-teal:#1D1611; --on-mustard:#1D1611; --on-rose:#1D1611; color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#1D1611; --surface:#2A2019; --surface2:#33271E; --ink:#F4EADD; --muted:#C2AF9C; --line:#4A3A2D;
+  --teal:#6DB3A6; --mustard:#E3AE45; --rose:#E096A6;
+  --tealsoft:#23403B; --mustardsoft:#463714; --rosesoft:#4A2A33;
+  --on-teal:#1D1611; --on-mustard:#1D1611; --on-rose:#1D1611; color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--ui);font-size:16px;line-height:1.6;margin:0;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:0}
+.wrap{max-width:720px;margin:0 auto;padding-block:20px 56px}
+h1,h2,h3{font-family:var(--display);font-weight:600;line-height:1.2;margin:0;text-wrap:balance}
+p{margin:0}
+button{font-family:inherit;font-size:inherit;color:inherit;cursor:pointer}
+:focus-visible{outline:3px solid var(--mustard);outline-offset:2px}
+.c-teal{--pc:var(--teal);--pcs:var(--tealsoft);--on-pc:var(--on-teal)}
+.c-mustard{--pc:var(--mustard);--pcs:var(--mustardsoft);--on-pc:var(--on-mustard)}
+.c-rose{--pc:var(--rose);--pcs:var(--rosesoft);--on-pc:var(--on-rose)}
+
+.top{display:flex;justify-content:space-between;align-items:baseline;gap:12px;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.nav{display:grid;grid-template-columns:repeat(4,1fr);gap:4px;margin-top:14px;padding:4px;background:var(--surface2);border-radius:14px}
+.nav button{border:0;background:transparent;padding:10px 4px;border-radius:10px;font-size:13px;font-weight:500;color:var(--muted);min-width:0}
+.nav button[aria-current="page"]{background:var(--surface);color:var(--ink);box-shadow:0 1px 3px rgba(58,42,30,.15)}
+
+.hero{margin-top:28px}
+.hero h1{font-size:clamp(32px,8vw,48px);font-style:italic}
+.hero p.lead{margin-top:14px;font-size:17px;max-width:52ch}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px}
+.chip{font-size:12.5px;padding:6px 12px;border-radius:99px;background:var(--surface2);color:var(--muted)}
+.prog{margin-top:26px;display:flex;align-items:center;gap:12px;font-size:13px;color:var(--muted)}
+.bar{flex:1;height:8px;border-radius:99px;background:var(--surface2);overflow:hidden}
+.bar>i{display:block;height:100%;background:var(--teal);border-radius:99px}
+
+.list{display:grid;gap:12px;margin-top:18px;padding:0;list-style:none}
+.ph{display:grid;grid-template-columns:56px 1fr auto;gap:14px;align-items:center;width:100%;text-align:left;
+  background:var(--surface);border:1.5px solid var(--line);border-radius:18px;padding:14px 16px}
+.ph:hover{border-color:var(--pc)}
+.ph .n{font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.ph h3{font-size:19px;margin-top:2px}
+.ph .hook{font-size:14px;color:var(--muted);margin-top:4px;line-height:1.45}
+.ph .go{font-size:13px;font-weight:600;color:var(--pc);white-space:nowrap}
+.ph.done{background:var(--pcs);border-color:transparent}
+.badge{width:56px;height:56px;display:block}
+.badge.off{opacity:.35;filter:grayscale(1)}
+
+.step{margin-top:20px}
+.crumb{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.back{border:0;background:transparent;color:var(--muted);font-size:14px;padding:8px 0}
+.dots{display:flex;gap:6px}
+.dots i{width:28px;height:6px;border-radius:99px;background:var(--line)}
+.dots i.on{background:var(--pc)}
+.kicker{font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--pc);font-weight:600;margin-top:18px}
+.card{background:var(--surface);border:1.5px solid var(--line);border-radius:20px;padding:22px 20px;margin-top:12px}
+.scene{font-family:var(--display);font-size:21px;line-height:1.5}
+.q{font-weight:600;margin-top:18px}
+.opts{display:grid;gap:10px;margin-top:12px}
+.opt{text-align:left;width:100%;background:var(--surface);border:1.5px solid var(--line);border-radius:14px;padding:14px 16px;line-height:1.45}
+.opt:hover{border-color:var(--pc)}
+.opt[aria-pressed="true"]{background:var(--pcs);border-color:var(--pc)}
+.reply{margin-top:14px;padding:16px;border-radius:14px;background:var(--pcs);font-size:15.5px}
+.reply small{display:block;margin-top:10px;color:var(--muted);font-size:13px}
+.btn{display:inline-block;border:0;border-radius:14px;padding:14px 22px;background:var(--pc);color:var(--on-pc);font-weight:600;font-size:15px}
+.btn[disabled]{opacity:.4;cursor:not-allowed}
+a.btn{text-decoration:none;text-align:center}
+.cta{margin-top:22px;border:2px solid var(--mustard);background:var(--mustardsoft)}
+.cta h2{margin:6px 0 8px}
+.cta .btn{background:var(--teal);color:var(--on-teal);margin-top:14px;width:100%}
+.ph.locked{opacity:.62}
+.ph.locked .go{background:var(--surface2);color:var(--muted)}
+.btn.ghost{background:transparent;color:var(--ink);border:1.5px solid var(--line)}
+.row{display:flex;flex-wrap:wrap;gap:10px;margin-top:22px}
+
+.acc{display:grid;gap:10px;margin-top:12px}
+.acc-i{background:var(--surface);border:1.5px solid var(--line);border-radius:16px;overflow:hidden}
+.acc-i.read{border-color:var(--pc)}
+.acc-h{display:flex;justify-content:space-between;align-items:center;gap:12px;width:100%;text-align:left;border:0;background:transparent;padding:16px 18px;font-weight:600;font-size:16px;line-height:1.35}
+.acc-h span.pl{flex:none;width:26px;height:26px;border-radius:50%;display:grid;place-items:center;background:var(--pcs);color:var(--pc);font-size:18px;line-height:1}
+.acc-b{padding:0 18px 18px;font-size:15.5px}
+.count{font-size:13px;color:var(--muted);margin-top:14px}
+
+.mf{margin-top:12px}
+.mf .st{font-family:var(--display);font-size:19px;line-height:1.4}
+.mf .ans{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px}
+.mf .ans button{border:1.5px solid var(--line);background:var(--surface);border-radius:12px;padding:12px;font-weight:600}
+.mf .ans button[aria-pressed="true"]{background:var(--pc);border-color:var(--pc);color:var(--on-pc)}
+.mf .ex{margin-top:14px;padding:14px;border-radius:12px;background:var(--pcs);font-size:15px}
+.mf .ex b{display:block;margin-bottom:4px}
+
+.scale{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;margin-top:12px}
+.scale button{border:1.5px solid var(--line);background:var(--surface);border-radius:12px;padding:10px 2px;font-size:12.5px;line-height:1.25;min-width:0;overflow-wrap:anywhere}
+.scale button[aria-pressed="true"]{background:var(--pc);border-color:var(--pc);color:var(--on-pc);font-weight:600}
+label.lb{display:block;font-weight:600;margin-top:20px}
+textarea{width:100%;min-height:84px;margin-top:8px;padding:12px 14px;border-radius:12px;border:1.5px solid var(--line);background:var(--surface);color:var(--ink);font:inherit;font-size:15.5px;resize:vertical}
+.note{font-size:13px;color:var(--muted);margin-top:8px}
+
+.done-box{text-align:center;padding:30px 20px}
+.done-box .badge{width:104px;height:104px;margin:0 auto}
+.done-box h2{font-size:26px;margin-top:16px}
+.done-box .ask{font-family:var(--display);font-style:italic;font-size:22px;margin-top:18px;line-height:1.4}
+
+.map h2,.sec h2{font-size:28px}
+.map .sub,.sec .sub{margin-top:10px;color:var(--muted)}
+.mrow{margin-top:18px}
+.mrow .l{display:flex;justify-content:space-between;gap:12px;font-size:14.5px}
+.mrow .l b{font-weight:600}
+.mrow .l span{color:var(--muted);white-space:nowrap}
+.mrow .bar{margin-top:6px;height:12px}
+.mrow .bar>i{background:var(--pc)}
+.notes{margin-top:26px;display:grid;gap:12px}
+.notes .nb{background:var(--surface);border:1.5px solid var(--line);border-radius:14px;padding:14px 16px}
+.notes .nb small{display:block;color:var(--muted);font-size:12.5px}
+.notes .nb p{margin-top:6px;white-space:pre-wrap;overflow-wrap:anywhere}
+.empty{margin-top:24px;padding:26px 20px;border:1.5px dashed var(--line);border-radius:18px;text-align:center}
+.empty p{margin-bottom:16px}
+
+.sec h3{font-size:20px;margin-top:28px}
+.sec p,.sec li{margin-top:10px}
+.sec ul{padding-left:20px;margin:6px 0 0}
+.box{margin-top:18px;padding:18px;border-radius:16px;background:var(--surface2)}
+.box.alert{background:var(--rosesoft)}
+.big{font-family:var(--display);font-size:34px;font-weight:600;color:var(--rose)}
+.pq{margin-top:8px;font-style:italic}
+.sign{margin-top:40px;font-size:13px;color:var(--muted);border-top:1px solid var(--line);padding-top:16px}
+@media (prefers-reduced-motion: no-preference){
+  .step,.sec,.map,.hero{animation:in .25s ease-out}
+  @keyframes in{from{opacity:.0;transform:translateY(6px)}to{opacity:1;transform:none}}
+}
+@media (max-width:420px){
+  .ph{grid-template-columns:48px 1fr;}
+  .ph .go{grid-column:2}
+  .badge{width:48px;height:48px}
+  .scale button{font-size:11.5px}
+}
+</style>
+
+<div class="wrap" id="app"></div>
+
+<script>
+/* ---------- CONTEÚDO ---------- */
+var PH = [
+{id:1,title:"Medo de ficar de fora",hook:"Você riu de uma piada que nem achou graça.",color:"teal",
+ scene:{t:"O grupo inteiro ri de uma piada. Você não achou graça, mas ri junto. Alguns minutos depois, pensa: por que eu fiz isso?",q:"O que você acha que aconteceu ali?",
+  o:[["Eu estava fingindo para não ficar diferente.","Isso tem nome: conformidade social. É ajustar o que a gente mostra ao que o grupo mostra. O cérebro faz isso no automático, e quase todo mundo faz."],
+     ["Rir foi automático, nem pensei.","Faz sentido. Rir junto funciona como um sinal de “estou com vocês” e costuma sair antes de você ter tempo de decidir."],
+     ["Não queria que me achassem chato.","O medo de ser avaliado pesa mais na adolescência. É comum pensar na reação dos outros antes de pensar na sua."]]},
+ cards:[["Conformidade é coisa de todo mundo","Ajustar o que dizemos, sentimos ou fazemos ao que o grupo faz acontece em qualquer idade. Na adolescência costuma pesar mais, porque os amigos passam a ser a principal referência de quem você é."],
+        ["O cérebro adolescente lê o grupo com mais intensidade","Estudos de neuroimagem indicam que, nessa fase, regiões ligadas à recompensa respondem mais à aprovação dos colegas, enquanto as áreas de controle de impulsos ainda estão amadurecendo (esse processo segue até depois dos 20 anos). O que os outros pensam passa a pesar mais."],
+        ["Ficar de fora dói de verdade","Em experimentos em que a pessoa era excluída de um jogo virtual, o cérebro ativava regiões que também respondem à dor física. Não é exagero nem frescura: o cérebro trata a exclusão como uma ameaça."],
+        ["Pertencer não é o mesmo que agradar","Pertencer é poder discordar e continuar no grupo. Precisar agradar é sentir que discordar coloca o seu lugar em risco. Quando mudar o jeito traz aceitação (risada, convite, curtida), o cérebro aprende que compensa. Quando discordar traz silêncio ou zoeira, aprende que custa. Repetido muitas vezes, isso vira automático."]],
+ mf:[["Quem muda para se encaixar é falso.","mito","É humano. Mostra o quanto você valoriza aquelas pessoas. A pergunta mais útil é: quanto isso está custando para você?"],
+     ["Ficar de fora pode doer de verdade.","fato","A pesquisa mostra que exclusão social ativa regiões do cérebro ligadas à dor. A dor emocional é real."],
+     ["Só quem tem a autoestima baixa copia o grupo.","mito","A conformidade aparece em todo tipo de pessoa. A psicologia social estuda isso há décadas."]],
+ obs:{q:"Com que frequência você muda seu jeito para não ficar de fora?",p:["Em que lugar ou grupo você sente que precisa se esconder mais?","Perto de quem você consegue ser você mesmo?"]},
+ close:"Perto de quem você consegue ser você mesmo?",
+ par:{what:"Como o grupo de amigos influencia o que o adolescente mostra e esconde.",ask:"Tem algum grupo em que você se sente mais à vontade do que em outros?"}},
+
+{id:2,title:"Duas emoções ao mesmo tempo",hook:"Feliz e com um aperto no peito, tudo junto.",color:"rose",
+ scene:{t:"Você tirou uma boa nota, mas seu melhor amigo foi mal. Você está feliz e, ao mesmo tempo, com um aperto no peito. Parece errado sentir os dois.",q:"O que você acha disso?",
+  o:[["Deve ter algo errado comigo.","Não tem. Sentir duas emoções ao mesmo tempo é comum. O cérebro não processa uma emoção de cada vez."],
+     ["Só uma delas pode ser a verdadeira.","As duas são verdadeiras. Cada uma fala de algo que importa: a sua conquista e a pessoa de quem você gosta."],
+     ["Eu escondo uma das duas.","Esconder é comum, principalmente quando uma delas parece “inadequada”. Só que esconder não faz a emoção sumir."]]},
+ cards:[["Emoções não chegam uma de cada vez","Alegria com tristeza, orgulho com culpa, alívio com medo: a pesquisa em psicologia descreve esses estados mistos há muito tempo. Na adolescência, com tantas situações sociais novas, eles aparecem com frequência."],
+        ["Cada emoção carrega um recado","A alegria diz que algo foi bom para você. O aperto diz que você se importa com o seu amigo. Uma emoção não cancela a outra, e as duas informam algo sobre o que é importante."],
+        ["Dar nome ao que sente muda o que acontece no cérebro","Em estudos de imagem, colocar a emoção em palavras (“estou frustrado”, “estou com medo”) tende a diminuir a resposta da amígdala, região ligada à reação a ameaças. Não faz a emoção sumir, mas baixa o volume."],
+        ["Por que parece errado","Desde cedo a gente aprende a separar emoções em boas e ruins. Sentir uma “ruim” num momento “bom” parece falha, mas é só uma situação com mais de uma camada."]],
+ mf:[["Sentir duas emoções opostas quer dizer que estou confuso.","mito","É um estado comum e esperado. Situações importantes quase nunca têm uma emoção só."],
+     ["Não existe emoção certa ou errada para sentir.","fato","Sentir não é escolha. O que se faz com a emoção é outra conversa, e ela vem depois de reconhecer o que está sentindo."],
+     ["Se eu ignorar a emoção, ela passa.","mito","Ignorar à força costuma manter o corpo em alerta (coração acelerado, tensão). Nomear a emoção tende a ajudar mais."]],
+ obs:{q:"Com que frequência você sente duas emoções ao mesmo tempo e não sabe o que fazer com isso?",p:["Qual foi a última vez que você sentiu duas emoções juntas? Quais eram?","Qual delas você costuma mostrar? E qual você guarda?"]},
+ close:"Qual foi a última vez que você sentiu duas emoções ao mesmo tempo?",
+ par:{what:"Emoções mistas e a ideia de que não existe emoção certa ou errada.",ask:"Teve algum dia que foi bom e ruim ao mesmo tempo?"}},
+
+{id:3,title:"Por que eu não conto nada",hook:"“Como foi a escola?” “Normal.”",color:"mustard",
+ scene:{t:"Seus pais perguntam como foi a escola. Você responde “normal”. Aconteceram coisas, mas você não sabe nem por onde começar.",q:"O que costuma passar pela sua cabeça?",
+  o:[["Vão se preocupar ou fazer drama.","Prever a reação dos outros é um dos motivos mais comuns do silêncio. O cérebro tenta te proteger de uma conversa que parece cara."],
+     ["Nem eu sei direito o que aconteceu.","Muitas vezes a gente ainda não organizou o que sentiu. Contar exige palavras, e elas demoram a chegar."],
+     ["É meu, não quero dividir.","Querer um espaço só seu faz parte de crescer. A necessidade de privacidade aumenta na adolescência."]]},
+ cards:[["Privacidade faz parte do desenvolvimento","Na adolescência cresce a necessidade de autonomia. Separar o que é “meu” do que é “da família” é uma tarefa típica dessa fase. Guardar algumas coisas não quer dizer que algo está errado."],
+        ["O cérebro calcula o custo antes de você falar","Antes de contar, o cérebro faz uma previsão: como essa pessoa vai reagir? Se contar trouxe bronca, sermão ou preocupação em outras vezes, ele aprende que calar é mais seguro. Isso é aprendizado por experiência e não diz se alguém é bom ou ruim."],
+        ["Vergonha e medo travam as palavras","Emoções intensas atrapalham a capacidade de organizar o que se sente em frases. Por isso “normal” sai mais fácil do que a história inteira."],
+        ["Calar tem um custo também","Não falar traz alívio rápido: você evita o desconforto da conversa. Só que esse alívio reforça o hábito de evitar, e o assunto continua ocupando espaço na cabeça. É o tipo de coisa que funciona no curto prazo e pesa no longo."]],
+ mf:[["Quem não conta nada é porque não confia nos pais.","mito","Muitas vezes é para proteger, por vergonha ou por não saber como começar. Confiança e silêncio podem existir juntos."],
+     ["Preciso contar tudo para todo mundo.","mito","Não existe essa obrigação. O ponto é perceber o que está ficando sem espaço para ser dito."],
+     ["Prever a reação dos outros influencia o que eu falo.","fato","O cérebro aprende com experiências passadas e usa isso para decidir se vale a pena falar."]],
+ obs:{q:"Com que frequência você responde “normal” quando aconteceu alguma coisa?",p:["O que tornaria mais fácil contar as coisas para você?","Tem alguém com quem você conta as coisas? O que essa pessoa faz de diferente?"]},
+ close:"O que tornaria mais fácil contar as coisas para você?",
+ par:{what:"Por que adolescentes falam pouco e o que pesa antes de contar algo.",ask:"Quando você quiser me contar alguma coisa, como prefere que eu reaja?"}},
+
+{id:4,title:"Me comparando o tempo todo",hook:"Você fechou o aplicativo pior do que abriu.",color:"teal",
+ scene:{t:"Você abre o Instagram e vê as férias de um colega, o corpo de outra pessoa, a nota de alguém. Fecha o aplicativo se sentindo pior do que abriu.",q:"O que explica isso?",
+  o:[["Todo mundo é melhor do que eu.","Esse pensamento é comum, mas é um recorte: você compara o seu dia inteiro com o melhor momento dos outros."],
+     ["Eu só vejo o que as pessoas querem mostrar.","Isso mesmo. As redes mostram momentos escolhidos, editados e filtrados. Não mostram a vida inteira."],
+     ["Nem percebo, só fico mal depois.","Acontece bastante: a comparação é automática e só aparece quando a gente nota o mal-estar."]]},
+ cards:[["Comparar é automático","O psicólogo Leon Festinger propôs, nos anos 1950, que usamos os outros para medir quem somos. A gente não decide comparar, acontece. Na adolescência, fase em que se descobre quem se é, esse mecanismo fica mais forte."],
+        ["Você compara bastidor com vitrine","Do seu lado, você conhece tudo: as dúvidas, os dias ruins, o que deu errado. Dos outros, você vê uma seleção. A comparação nasce injusta."],
+        ["As plataformas mostram o que chama atenção","Os aplicativos tendem a destacar o que gera mais reação: o chamativo, o perfeito, o extremo. Isso distorce a ideia do que é “normal” e faz parecer que todo mundo está melhor."],
+        ["A comparação também informa","Nem toda comparação faz mal. Ela pode apontar o que você admira, o que quer ou sente falta. A inveja, por exemplo, muitas vezes aponta para algo que importa para você."]],
+ mf:[["Se eu me comparo, é porque sou invejoso.","mito","Comparar é automático em qualquer pessoa. A questão é o que ela provoca em você."],
+     ["O que aparece nas redes é uma versão selecionada da vida.","fato","Cada pessoa escolhe, edita e filtra o que posta. A vida inteira nunca cabe no feed."],
+     ["Parar de seguir alguém acaba com a comparação.","mito","Pode aliviar, mas a comparação também acontece na escola, no esporte e em casa. O que ajuda a entender é perceber quando ela aparece."]],
+ obs:{q:"Com que frequência você sai de uma rede social se sentindo pior?",p:["Em que situação você mais se compara? (rede, escola, esporte, aparência...)","O que essa comparação aponta sobre o que você quer?"]},
+ close:"Em que situação você mais se compara?",
+ par:{what:"Comparação social, redes sociais e a diferença entre vitrine e bastidor.",ask:"Tem alguma coisa que você vê online e fica pensando nela depois?"}},
+
+{id:5,title:"Sono e humor",hook:"Deitar às 23h e dormir só depois da 1h.",color:"mustard",
+ scene:{t:"Você deita às 23h, mas só dorme depois da 1h. De manhã acorda irritado, com a cabeça lenta. Alguém comenta que você está de mau humor.",q:"O que pode estar por trás disso?",
+  o:[["É só preguiça.","Preguiça é um rótulo fácil. O que se vê de fora costuma ter uma explicação biológica."],
+     ["Meu corpo mudou o horário dele.","Boa hipótese. Na adolescência o relógio biológico tende a atrasar: o sono vem mais tarde e acordar cedo fica mais difícil."],
+     ["Durmo tarde por causa do celular.","A luz e o conteúdo da tela podem atrasar o sono, sim. É um fator, mas não o único: o relógio interno também muda."]]},
+ cards:[["O relógio biológico muda na adolescência","Durante a puberdade, o ritmo do corpo tende a atrasar: o sono chega mais tarde e acordar cedo fica mais custoso. Pesquisadores do sono descrevem isso há décadas, e é biológico. Não é falta de disciplina."],
+        ["Escola cedo mais relógio atrasado dá sono curto","Quando a hora de dormir é tardia e a de acordar é fixa, o sono vai ficando em dívida. Entidades de medicina do sono costumam recomendar, em média, de 8 a 10 horas por noite nessa faixa etária."],
+        ["Pouco sono mexe com a emoção","Dormir pouco deixa regiões ligadas a ameaça, como a amígdala, mais reativas e atrapalha a comunicação com as áreas de controle. O resultado: mais irritação, choro fácil, menos paciência e mais dificuldade de concentração."],
+        ["Cansaço pode parecer personalidade","Mau humor de manhã, lentidão e esquecimento são sinais comuns de sono insuficiente. Vale observar o padrão antes de concluir que “eu sou assim”."]],
+ mf:[["Adolescente dorme tarde porque é preguiçoso.","mito","Boa parte vem da mudança do relógio biológico nessa fase."],
+     ["Pouco sono pode aumentar a irritação e atrapalhar a atenção.","fato","O sono insuficiente afeta emoção, atenção e memória."],
+     ["Dormir muito no fim de semana compensa tudo.","mito","Alivia o cansaço, mas não repõe tudo e ainda desloca mais o relógio do corpo."]],
+ obs:{q:"Com que frequência você acorda sem sentir que descansou?",p:["A que horas você costuma dormir de verdade (não só deitar)?","Em quais dias seu humor está pior? Tem relação com o sono?"]},
+ close:"Em quais dias seu humor está pior?",
+ par:{what:"Como o sono muda na adolescência e como isso aparece no humor.",ask:"Como você tem dormido nesta semana?"}},
+
+{id:6,title:"Todo mundo está olhando",hook:"Você tropeçou e a cena não sai da cabeça.",color:"rose",
+ scene:{t:"Você tropeçou na frente da turma. Durante o resto do dia ficou repassando a cena, certo de que todo mundo estava rindo de você.",q:"Quantas pessoas você acha que realmente lembram?",
+  o:[["Todo mundo.","É assim que parece por dentro. Esse sentimento tem nome: efeito holofote."],
+     ["Algumas pessoas, e só por um instante.","Provavelmente. Em pesquisas, as pessoas costumam superestimar o quanto os outros notam o que elas fazem."],
+     ["Quase ninguém.","Se você sabe disso, ótimo. Mesmo assim, o sentimento pode vir forte, porque a emoção chega antes da lógica."]]},
+ cards:[["O efeito holofote","É a tendência de achar que os outros nos observam e lembram do que fazemos muito mais do que realmente acontece. Num experimento clássico, estudantes usaram uma camiseta constrangedora e estimaram que muitos colegas iriam notar. Bem menos gente notou."],
+        ["A plateia imaginária","O psicólogo David Elkind descreveu a “plateia imaginária” da adolescência: a sensação de estar sendo observado o tempo todo. Ela faz parte de como o pensamento sobre si e sobre os outros se desenvolve nessa fase."],
+        ["Cada pessoa está no próprio holofote","Enquanto você se preocupa com o que pensam de você, os outros estão preocupados com o que pensam deles. A atenção de cada um fica, a maior parte do tempo, nele mesmo."],
+        ["Repassar a cena mantém a emoção viva","Reviver a situação várias vezes na cabeça (ruminação) faz a lembrança parecer maior e mais frequente, e o desconforto dura mais do que o episódio."]],
+ mf:[["Se eu errei na frente de todos, todos vão lembrar.","mito","As pessoas lembram bem menos do que a gente imagina."],
+     ["Sentir-se observado o tempo todo é comum na adolescência.","fato","É um fenômeno descrito há décadas no desenvolvimento adolescente."],
+     ["Quem sente isso é inseguro demais.","mito","É uma experiência comum a muitas pessoas, de diferentes jeitos de ser."]],
+ obs:{q:"Com que frequência você evita fazer algo por medo de ser julgado?",p:["O que você deixou de fazer por achar que iam te olhar?","Se alguém que você admira passasse por isso, o que você pensaria dessa pessoa?"]},
+ close:"O que você deixou de fazer por medo de ser julgado?",
+ par:{what:"O efeito holofote e a sensação de estar sendo observado.",ask:"Teve alguma coisa que você quis fazer e ficou com vergonha?"}},
+
+{id:7,title:"Irritado sem saber por quê",hook:"Você respondeu grosso e nem sabe de onde veio.",color:"teal",
+ scene:{t:"Alguém faz uma pergunta simples e você responde grosso. Logo depois pensa: não precisava ter falado assim. Na hora, parecia que tudo te incomodava.",q:"De onde isso pode ter vindo?",
+  o:[["Eu sou uma pessoa explosiva.","É um rótulo que explica pouco. A irritação costuma ter origem em outras coisas que dá para observar."],
+     ["Eu já estava no limite por outras coisas.","Muito provável. O estresse acumulado baixa o limite: uma coisa pequena vira o gatilho."],
+     ["Eu estava com fome, sono ou cansaço.","Faz diferença. Corpo e emoção andam juntos."]]},
+ cards:[["A irritação raramente chega sozinha","Muitas vezes ela é a parte visível. Por baixo podem estar cansaço, fome, frustração, vergonha, medo ou tristeza. A raiva costuma ser a emoção que aparece porque dá sensação de força."],
+        ["O corpo acende antes da cabeça","O cérebro detecta uma ameaça e prepara o corpo (coração acelerado, tensão) em frações de segundo. O pensamento “não precisava falar assim” chega depois."],
+        ["Estresse acumulado baixa o limite","Várias pequenas coisas ao longo do dia (prova, trabalho em grupo, sono ruim) vão somando. Quando mais uma chega, a reação fica maior do que ela. É como um copo enchendo aos poucos."],
+        ["Reagir de um jeito não define quem você é","A reação é um padrão que se aprende e se repete. Perceber o que acontece antes dela ajuda a entender o padrão, e não diz nada sobre o seu caráter."]],
+ mf:[["A raiva é sempre o sentimento principal.","mito","Muitas vezes ela cobre outra emoção, como vergonha, medo ou tristeza."],
+     ["Sono, fome e estresse podem aumentar a irritação.","fato","O estado do corpo muda o quanto cada situação pesa."],
+     ["Quem se irrita fácil é mal-educado.","mito","Irritação é uma reação do corpo e da emoção. Educação tem a ver com o que se faz depois."]],
+ obs:{q:"Com que frequência você se irrita e depois não entende o motivo?",p:["Pense na última vez que se irritou: o que tinha acontecido nas horas antes?","O que você sentia por baixo da irritação? (cansaço, vergonha, medo, tristeza...)"]},
+ close:"O que tinha por baixo da última vez que você se irritou?",
+ par:{what:"A irritação como a parte visível de outras emoções e do estado do corpo.",ask:"Depois que você se acalma, às vezes dá para entender o que foi?"}},
+
+{id:8,title:"Quem eu sou?",hook:"Seus gostos de um ano atrás parecem de outra pessoa.",color:"mustard",
+ scene:{t:"Você olha uma foto de um ano atrás e pensa: eu gostava disso? Seus gostos, seu jeito de falar, até suas músicas mudaram. Às vezes parece que você nem sabe mais quem é.",q:"O que isso pode significar?",
+  o:[["Estou perdido.","A sensação de estar perdido é comum. Mudar de gosto não é se perder: pode ser você se descobrindo."],
+     ["Estou testando versões de mim.","É o que a psicologia do desenvolvimento descreve: na adolescência a pessoa experimenta papéis, estilos e ideias para descobrir o que combina."],
+     ["Estou me parecendo com meus amigos.","Os amigos influenciam, e isso é normal. A pergunta é quais mudanças são suas e quais são só de encaixe."]]},
+ cards:[["Identidade é construída aos poucos","O psicólogo Erik Erikson descreveu a adolescência como a fase de construir a identidade: a pessoa experimenta, compara e escolhe. Não se encontra pronta."],
+        ["Mudar de gosto faz parte","Trocar de estilo, música, opinião ou grupo nessa fase é esperado. Não indica falsidade nem confusão grave."],
+        ["O cérebro está se reorganizando","O cérebro adolescente reorganiza conexões, e o que é mais usado tende a se fortalecer. Regiões ligadas a planejamento e a pensar sobre si mesmo continuam amadurecendo."],
+        ["Não precisa decidir tudo agora","Pesquisadores da identidade falam em uma fase de exploração antes de se comprometer com escolhas. Quem tem espaço para explorar costuma chegar a escolhas mais sólidas depois."]],
+ mf:[["Se meu gosto muda, eu não tenho personalidade.","mito","Mudar de gosto é parte de se descobrir. A personalidade segue sendo sua enquanto muda."],
+     ["Experimentar estilos e ideias diferentes é parte de se descobrir.","fato","A exploração é uma das principais tarefas dessa fase."],
+     ["Preciso saber quem sou e o que vou ser antes de terminar a escola.","mito","A maioria das pessoas continua se descobrindo por muitos anos depois."]],
+ obs:{q:"Com que frequência você sente que não sabe quem é?",p:["O que mudou em você no último ano (gostos, jeito, amizades)?","O que você sente que é seu e continua igual, mesmo nas fases diferentes?"]},
+ close:"O que em você continua igual, mesmo quando tudo muda?",
+ par:{what:"Identidade, mudança de gostos e a tarefa de se descobrir.",ask:"O que você anda curtindo agora que antes não curtia?"}}
+];
+var SC = ["Nunca","Raro","Às vezes","Muito","Sempre"];
+var STEPS = ["Cena","Por trás","Mito ou fato","Observe"];
+var KEY = "mq-lab-gratis-v1";
+var BUY = "https://pay.hub.la/QiSJe9kpNAAgZHGlHJb1";
+
+/* ---------- ESTADO ---------- */
+function load(){
+  try{ var r = localStorage.getItem(KEY); if(r){ var o = JSON.parse(r); o.done=o.done||{}; o.scale=o.scale||{}; o.notes=o.notes||{}; o.choice=o.choice||{}; return o; } }catch(e){}
+  return {done:{},scale:{},notes:{},choice:{}};
+}
+var S = load();
+function save(){ try{ localStorage.setItem(KEY, JSON.stringify(S)); }catch(e){} }
+var V = {tab:"jogar", phase:null, step:0, open:{}, seen:{}, mf:{}, confirm:false, copied:""};
+
+function esc(s){ return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;"); }
+function doneCount(){ return PH.filter(function(p){return S.done[p.id];}).length; }
+
+/* ---------- SELOS ---------- */
+function glyph(i){
+  switch(i){
+    case 1: return '<circle cx="15" cy="22" r="5" fill="var(--pc)"/><circle cx="24" cy="17" r="5" fill="var(--pc)"/><circle cx="19" cy="30" r="5" fill="var(--pc)"/><circle cx="34" cy="31" r="5" fill="none" stroke="var(--pc)" stroke-width="2" stroke-dasharray="3 2.5"/>';
+    case 2: return '<circle cx="19" cy="24" r="10" fill="var(--pc)" fill-opacity=".45"/><circle cx="29" cy="24" r="10" fill="var(--pc)" fill-opacity=".45"/>';
+    case 3: return '<rect x="9" y="11" width="30" height="21" rx="7" fill="none" stroke="var(--pc)" stroke-width="2.5"/><path d="M17 32v7l8-7" fill="none" stroke="var(--pc)" stroke-width="2.5" stroke-linejoin="round"/><circle cx="17" cy="21.5" r="2" fill="var(--pc)"/><circle cx="24" cy="21.5" r="2" fill="var(--pc)"/><circle cx="31" cy="21.5" r="2" fill="var(--pc)"/>';
+    case 4: return '<rect x="11" y="11" width="11" height="11" rx="2.5" fill="var(--pc)" fill-opacity=".35"/><rect x="26" y="11" width="11" height="11" rx="2.5" fill="var(--pc)" fill-opacity=".35"/><rect x="11" y="26" width="11" height="11" rx="2.5" fill="var(--pc)" fill-opacity=".35"/><rect x="26" y="26" width="11" height="11" rx="2.5" fill="var(--pc)"/>';
+    case 5: return '<circle cx="22" cy="24" r="13" fill="var(--pc)"/><circle cx="29" cy="19" r="11" fill="var(--pcs)"/>';
+    case 6: return '<path d="M6 24Q24 8 42 24Q24 40 6 24Z" fill="none" stroke="var(--pc)" stroke-width="2.5" stroke-linejoin="round"/><circle cx="24" cy="24" r="5.5" fill="var(--pc)"/>';
+    case 7: return '<polyline points="9,28 17,16 24,30 31,14 39,26" fill="none" stroke="var(--pc)" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>';
+    case 8: return '<circle cx="24" cy="18" r="6.5" fill="var(--pc)"/><path d="M11 37A13 13 0 0 1 37 37" fill="none" stroke="var(--pc)" stroke-width="3" stroke-linecap="round"/><circle cx="24" cy="24" r="18" fill="none" stroke="var(--pc)" stroke-width="1.5" stroke-dasharray="2 3.5" opacity=".6"/>';
+  }
+  return "";
+}
+function badge(p, on){
+  return '<svg class="badge c-'+p.color+(on?'':' off')+'" viewBox="0 0 48 48" aria-hidden="true"><circle cx="24" cy="24" r="22.5" fill="var(--pcs)" stroke="var(--pc)" stroke-width="1.5"/>'+glyph(p.id)+'</svg>';
+}
+
+/* ---------- TELAS ---------- */
+function header(){
+  var tabs = [["jogar","Jogar"],["mapa","Meu mapa"],["pais","Para os pais"],["ajuda","Ajuda"]];
+  return '<div class="top"><span>Mini Queridos</span><span>Rafaella Silva · Psicóloga</span></div>'+
+    '<nav class="nav" aria-label="Seções">'+tabs.map(function(t){
+      return '<button data-a="tab" data-v="'+t[0]+'"'+(V.tab===t[0]&&V.phase===null?' aria-current="page"':(V.tab===t[0]&&V.phase!==null&&t[0]==="jogar"?' aria-current="page"':''))+'>'+t[1]+'</button>';
+    }).join("")+'</nav>';
+}
+
+function cta(t,h){
+  return '<div class="card cta"><p class="kicker">'+(t||'Gostou?')+'</p><h2>'+(h||'Essa foi só a Fase 1.')+'</h2>'+
+  '<p>O Laboratório de cenas completo tem 8 fases sobre o que acontece nessa idade: emoções misturadas, segredos, comparação, sono, vergonha, irritação e a pergunta “quem eu sou?”.</p>'+
+  '<a class="btn" href="'+BUY+'" target="_blank" rel="noopener">Quero o Laboratório completo · R$47</a>'+
+  '<p class="note" style="margin-top:10px">Pagamento único. Abre no celular, sem cadastro. Feito por Rafaella Silva, psicóloga · CRP 22/07292.</p></div>';
+}
+
+function home(){
+  var n = doneCount();
+  var next = PH.filter(function(p){return !S.done[p.id];})[0];
+  var h = '<section class="hero"><h1>Coisas que ninguém te explica</h1>'+
+    '<p class="lead">Experimente grátis a primeira fase do Laboratório de cenas: uma situação real, o que acontece por trás, mito ou fato e um momento para observar você mesmo.</p>'+
+    '<div class="chips"><span class="chip">Fase 1 grátis</span><span class="chip">cerca de 5 min</span><span class="chip">suas respostas ficam só neste aparelho</span></div>'+
+    '</section>';
+  h += '<ul class="list">'+PH.map(function(p){
+    var d = !!S.done[p.id];
+    if(p.id>1){ return '<li><button class="ph locked c-'+p.color+'" data-a="locked">'+badge(p,false)+
+      '<span><span class="n">Fase '+p.id+' · no Laboratório completo</span><h3>'+p.title+'</h3><p class="hook">'+p.hook+'</p></span><span class="go">🔒</span></button></li>'; }
+    return '<li><button class="ph c-'+p.color+(d?' done':'')+'" data-a="open" data-v="'+(p.id-1)+'">'+badge(p,d)+
+      '<span><span class="n">Fase '+p.id+(d?' · concluída':'')+'</span><h3>'+p.title+'</h3><p class="hook">'+p.hook+'</p></span>'+
+      '<span class="go">'+(d?'Rever':'Jogar grátis')+'</span></button></li>';
+  }).join("")+'</ul>';
+  h += '<p class="note" style="margin-top:22px">Não existe resposta certa ou errada aqui. Cada adolescente é único, cada família é única, cada contexto é único. Este material ajuda a observar a si mesmo e a ter assunto para conversar.</p>';
+  h += '<div id="comprar">'+cta('Quer as 8 fases?','Conheça o Laboratório completo')+'</div>';
+  return h;
+}
+
+function phaseView(){
+  var p = PH[V.phase], st = V.step, h = '';
+  h += '<div class="step c-'+p.color+'"><div class="crumb"><button class="back" data-a="back">← '+(st===0||st===4?'Voltar às fases':'Voltar')+'</button>';
+  if(st<4){ h += '<div class="dots" aria-label="Etapa '+(st+1)+' de 4">'+[0,1,2,3].map(function(i){return '<i class="'+(i<=st?'on':'')+'"></i>';}).join("")+'</div>'; }
+  h += '</div>';
+  if(st===0){
+    var ch = V.pick;
+    h += '<p class="kicker">Fase '+p.id+' · '+p.title+'</p><div class="card"><p class="scene">'+p.scene.t+'</p><p class="q">'+p.scene.q+'</p>'+
+      '<div class="opts">'+p.scene.o.map(function(o,i){return '<button class="opt" data-fk="opt'+i+'" data-a="pick" data-v="'+i+'" aria-pressed="'+(ch===i)+'">'+o[0]+'</button>';}).join("")+'</div>';
+    if(ch!==null && ch!==undefined){ h += '<div class="reply" role="status">'+p.scene.o[ch][1]+'<small>Todas essas respostas são possíveis, e você pode se identificar com mais de uma. Veja o que acontece por trás.</small></div>'; }
+    h += '</div><div class="row"><button class="btn" data-a="next"'+(ch===null||ch===undefined?' disabled':'')+'>Ver o que acontece por trás</button></div>';
+  }
+  if(st===1){
+    var seen = Object.keys(V.seen).length;
+    h += '<p class="kicker">Por trás</p><h2 style="margin-top:6px;font-size:24px">O que a ciência diz sobre isso</h2><div class="acc">'+
+      p.cards.map(function(c,i){
+        var o = !!V.open[i];
+        return '<div class="acc-i'+(V.seen[i]?' read':'')+'"><button class="acc-h" data-fk="card'+i+'" data-a="card" data-v="'+i+'" aria-expanded="'+o+'"><span>'+c[0]+'</span><span class="pl" aria-hidden="true">'+(o?'−':'+')+'</span></button>'+(o?'<div class="acc-b">'+c[1]+'</div>':'')+'</div>';
+      }).join("")+'</div><p class="count">'+seen+' de '+p.cards.length+' lidos</p>'+
+      '<div class="row"><button class="btn" data-a="next"'+(seen<p.cards.length?' disabled':'')+'>Continuar</button></div>';
+  }
+  if(st===2){
+    var answered = Object.keys(V.mf).length;
+    h += '<p class="kicker">Mito ou fato</p>'+p.mf.map(function(m,i){
+      var a = V.mf[i];
+      return '<div class="card mf"><p class="st">“'+m[0]+'”</p><div class="ans"><button data-fk="mf'+i+'a" data-a="mf" data-v="'+i+':mito" aria-pressed="'+(a==="mito")+'">Mito</button><button data-fk="mf'+i+'b" data-a="mf" data-v="'+i+':fato" aria-pressed="'+(a==="fato")+'">Fato</button></div>'+
+        (a?'<div class="ex" role="status"><b>'+(a===m[1]?'Isso mesmo. É '+m[1]+'.':'Quase. Na verdade, é '+m[1]+'.')+'</b>'+m[2]+'</div>':'')+'</div>';
+    }).join("")+'<div class="row"><button class="btn" data-a="next"'+(answered<p.mf.length?' disabled':'')+'>Continuar</button></div>';
+  }
+  if(st===3){
+    var sc = S.scale[p.id];
+    var nt = S.notes[p.id]||["",""];
+    h += '<p class="kicker">Observe</p><div class="card"><p class="q" style="margin-top:0">'+p.obs.q+'</p><div class="scale">'+SC.map(function(s,i){
+      return '<button data-fk="sc'+i+'" data-a="scale" data-v="'+i+'" aria-pressed="'+(sc===i)+'">'+s+'</button>';}).join("")+'</div>'+
+      '<label class="lb" for="n0">'+p.obs.p[0]+'</label><textarea id="n0" data-n="0" placeholder="Opcional. Escreva do seu jeito.">'+esc(nt[0]||"")+'</textarea>'+
+      '<label class="lb" for="n1">'+p.obs.p[1]+'</label><textarea id="n1" data-n="1" placeholder="Opcional.">'+esc(nt[1]||"")+'</textarea>'+
+      '<p class="note">Isto fica salvo só neste aparelho. Ninguém vê, nem a psicóloga.</p></div>'+
+      '<div class="row"><button class="btn" data-a="finish"'+(sc===undefined?' disabled':'')+'>Concluir fase</button></div>';
+  }
+  if(st===4){
+    var nx = PH[V.phase+1];
+    h += '<div class="card done-box">'+badge(p,true).replace('class="badge','class="badge')+'<p class="kicker" style="margin-top:14px">Selo conquistado</p><h2>'+p.title+'</h2>'+
+      '<p class="ask">'+p.close+'</p><p class="note">Fique com essa pergunta. Não precisa responder agora.</p></div>'+
+      '<div class="row" style="justify-content:center">'+'<button class="btn ghost" data-a="exit">Voltar às fases</button></div>'+cta('Gostou?');
+  }
+  return h+'</div>';
+}
+
+function mapa(){
+  var done = PH.filter(function(p){return S.done[p.id];});
+  var h = '<section class="map" style="margin-top:28px"><h2>Meu mapa</h2><p class="sub">Um retrato de hoje: o quanto cada tema aparece na sua vida. Não é teste nem diagnóstico, e muda com o tempo.</p>';
+  if(!done.length){
+    return h+'<div class="empty"><p>Seu mapa começa a aparecer quando você concluir a primeira fase.</p><button class="btn c-teal" data-a="tab" data-v="jogar">Ir para as fases</button></div></section>';
+  }
+  h += done.map(function(p){
+    var v = S.scale[p.id]; if(v===undefined) v = 0;
+    return '<div class="mrow c-'+p.color+'"><div class="l"><b>'+p.title+'</b><span>'+SC[v]+'</span></div><div class="bar" role="img" aria-label="'+p.title+': '+SC[v]+'"><i style="width:'+Math.max(4,(v/4)*100)+'%"></i></div></div>';
+  }).join("");
+  var nb = done.filter(function(p){var n=S.notes[p.id]||[]; return (n[0]&&n[0].trim())||(n[1]&&n[1].trim());});
+  if(nb.length){
+    h += '<h3 style="margin-top:34px;font-size:20px">O que você escreveu</h3><div class="notes">';
+    nb.forEach(function(p){
+      var n = S.notes[p.id]||[];
+      [0,1].forEach(function(k){ if(n[k]&&n[k].trim()){ h += '<div class="nb"><small>'+esc(p.obs.p[k])+'</small><p>'+esc(n[k])+'</p></div>'; } });
+    });
+    h += '</div>';
+  }
+  h += '<div class="row"><button class="btn c-teal" data-a="copy">'+(V.copied||'Copiar meu mapa')+'</button>'+
+    (V.confirm?'<button class="btn ghost" data-a="wipe">Confirmar: apagar tudo</button><button class="btn ghost" data-a="cancel">Cancelar</button>':'<button class="btn ghost" data-a="ask-wipe">Apagar minhas respostas</button>')+'</div>'+
+    '<p class="note">Seu mapa fica salvo só neste aparelho e neste navegador. Se você limpar os dados do navegador, ele some.</p>';
+  if(V.copyText){ h += '<textarea id="copybox" readonly aria-label="Texto do mapa para copiar">'+esc(V.copyText)+'</textarea>'; }
+  return h+'</section>';
+}
+
+function pais(){
+  return '<section class="sec" style="margin-top:28px"><h2>Para os pais</h2>'+
+  '<p class="sub">Este material foi pensado para o adolescente jogar sozinho, no ritmo dele. Ele não substitui atendimento psicológico e não faz diagnóstico.</p>'+
+  '<div class="box"><b>Como usar</b><ul><li>Entregue o link e deixe que ele faça no tempo dele. Cada fase leva cerca de 5 minutos.</li><li>As respostas ficam salvas só no aparelho do adolescente. Mostrar o mapa é uma escolha dele.</li><li>Evite fazer perguntas sobre as respostas. Use as perguntas abaixo como convite, sem insistir.</li></ul></div>'+
+  '<h3>O que cada fase trabalha</h3>'+
+  PH.map(function(p){return '<div class="box" style="margin-top:12px"><b>'+p.id+'. '+p.title+'</b><p style="margin-top:6px">'+p.par.what+'</p><p class="pq">Pergunta para puxar conversa: “'+p.par.ask+'”</p></div>';}).join("")+
+  '<h3>Quando procurar um profissional</h3><div class="box alert"><p style="margin-top:0">Procure um psicólogo ou outro profissional de saúde mental se você notar algo intenso e que dura: isolamento prolongado, mudanças fortes de sono ou apetite, queda importante na escola, falas de desesperança ou de se machucar. Em risco imediato, ligue 192 (SAMU) ou 188 (CVV).</p></div>'+
+  '<p class="sign">Rafaella Silva · Psicóloga · CRP 22/07292<br>Cada adolescente é único, cada família é única, cada contexto é único.</p></section>';
+}
+
+function ajuda(){
+  return '<section class="sec" style="margin-top:28px"><h2>Se você está mal agora</h2>'+
+  '<p class="sub">Algumas coisas são pesadas demais para carregar sozinho, e pedir ajuda é uma boa decisão.</p>'+
+  '<div class="box alert"><p class="big" style="margin-top:0">188</p><p style="margin-top:4px"><b>CVV, Centro de Valorização da Vida.</b> Ligação gratuita, 24 horas, de qualquer telefone. Também tem chat em cvv.org.br.</p></div>'+
+  '<div class="box"><p style="margin-top:0"><b>Risco imediato:</b> ligue 192 (SAMU) ou vá a um pronto-socorro.</p></div>'+
+  '<h3>Fale com alguém de confiança</h3><p>Pode ser um adulto da família, um professor, um orientador da escola ou outro profissional. Você não precisa ter as palavras certas. Dizer “não estou bem” já é um começo.</p>'+
+  '<h3>Sobre este material</h3><p>Ele é educativo. Não substitui atendimento psicológico, não faz diagnóstico e não indica o que você deve fazer. Cada adolescente é único, cada família é única, cada contexto é único. Use as fases para observar o que acontece com você e para ter assunto de conversa.</p>'+
+  '<p class="sign">Conteúdo de Rafaella Silva · Psicóloga · CRP 22/07292</p></section>';
+}
+
+/* ---------- RENDER ---------- */
+var app = document.getElementById("app");
+function render(scroll){
+  var fk = document.activeElement && document.activeElement.getAttribute ? document.activeElement.getAttribute("data-fk") : null;
+  var body = V.phase!==null ? phaseView() : (V.tab==="jogar"?home():V.tab==="mapa"?mapa():V.tab==="pais"?pais():ajuda());
+  app.innerHTML = header()+body;
+  if(scroll){ window.scrollTo(0,0); }
+  if(fk){ var el = app.querySelector('[data-fk="'+fk+'"]'); if(el){ el.focus({preventScroll:true}); } }
+}
+
+function reset(){ V.open={}; V.seen={}; V.mf={}; V.pick=null; V.step=0; }
+
+function mapText(){
+  var t = "MEU MAPA · Coisas que ninguém te explica\n\n";
+  PH.forEach(function(p){
+    if(!S.done[p.id]) return;
+    t += p.title+": "+SC[S.scale[p.id]||0]+"\n";
+    var n = S.notes[p.id]||[];
+    [0,1].forEach(function(k){ if(n[k]&&n[k].trim()){ t += "  - "+p.obs.p[k]+"\n    "+n[k].trim()+"\n"; } });
+  });
+  return t;
+}
+
+app.addEventListener("click", function(e){
+  var b = e.target.closest("[data-a]"); if(!b) return;
+  var a = b.getAttribute("data-a"), v = b.getAttribute("data-v"), p = V.phase!==null ? PH[V.phase] : null;
+  if(a==="locked"){ var el=document.getElementById("comprar"); if(el){ el.scrollIntoView({behavior:"smooth",block:"center"}); } return; }
+  if(a==="tab"){ V.tab=v; V.phase=null; V.confirm=false; V.copyText=""; V.copied=""; render(true); return; }
+  if(a==="open"){ V.phase=+v; reset(); var c=S.choice[PH[V.phase].id]; V.pick = (c===undefined?null:c); render(true); return; }
+  if(a==="exit"){ V.phase=null; V.tab="jogar"; render(true); return; }
+  if(a==="back"){ if(V.step===0||V.step===4){ V.phase=null; render(true); } else { V.step--; render(true); } return; }
+  if(a==="pick"){ V.pick=+v; S.choice[p.id]=+v; save(); render(false); return; }
+  if(a==="next"){ V.step++; render(true); return; }
+  if(a==="card"){ var i=+v; V.open[i]=!V.open[i]; V.seen[i]=true; render(false); return; }
+  if(a==="mf"){ var pr=v.split(":"); V.mf[+pr[0]]=pr[1]; render(false); return; }
+  if(a==="scale"){ S.scale[p.id]=+v; save(); render(false); return; }
+  if(a==="finish"){ S.done[p.id]=true; save(); V.step=4; render(true); return; }
+  if(a==="nextphase"){ V.phase++; reset(); var c2=S.choice[PH[V.phase].id]; V.pick=(c2===undefined?null:c2); render(true); return; }
+  if(a==="ask-wipe"){ V.confirm=true; render(false); return; }
+  if(a==="cancel"){ V.confirm=false; render(false); return; }
+  if(a==="wipe"){ S={done:{},scale:{},notes:{},choice:{}}; save(); V.confirm=false; V.copyText=""; V.copied=""; render(true); return; }
+  if(a==="copy"){
+    var t = mapText(); V.copyText="";
+    var ok = function(){ V.copied="Copiado"; render(false); };
+    var fail = function(){ V.copyText=t; V.copied="Selecione o texto abaixo e copie"; render(false); var box=document.getElementById("copybox"); if(box){ box.focus(); box.select(); } };
+    try{ navigator.clipboard.writeText(t).then(ok, fail); }catch(err){ fail(); }
+    return;
+  }
+});
+app.addEventListener("input", function(e){
+  var t = e.target;
+  if(t.tagName==="TEXTAREA" && t.hasAttribute("data-n") && V.phase!==null){
+    var id = PH[V.phase].id; var arr = S.notes[id] || ["",""];
+    arr[+t.getAttribute("data-n")] = t.value; S.notes[id]=arr; save();
+  }
+});
+render(false);
+</script>
