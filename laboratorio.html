@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Laboratório de Cenas · Rafaella Silva</title>
+<meta name="description" content="Uma experiência digital para adolescentes de 13 a 15 anos explorarem situações do cotidiano e refletirem sobre suas escolhas, no próprio ritmo. Por Rafaella Silva, psicóloga (CRP 22/07292).">
+<meta property="og:title" content="Laboratório de Cenas + jogo Trilha das Escolhas">
+<meta property="og:description" content="Situações da adolescência para o seu filho explorar no celular, no próprio ritmo e sem julgamentos.">
+<meta property="og:image" content="img/lab-cena.jpg">
+<link rel="stylesheet" href="style.css">
+<style>
+.lp section{padding:64px 0}
+.lp .alt{background:#fff;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.lp h2{font-size:clamp(28px,4.4vw,40px)}
+.lp .lead{color:var(--soft);font-size:17px;margin-top:12px;max-width:620px}
+.center{text-align:center}.center .lead{margin-left:auto;margin-right:auto}
+
+/* header simples */
+.lp-top .wrap{display:flex!important;flex-direction:row!important;align-items:center;justify-content:space-between;height:64px!important;padding-top:0!important;padding-bottom:0!important}
+.lp-top a.mini{font-size:14px;font-weight:600;text-decoration:none;padding:9px 16px;border-radius:999px;border:2px solid var(--green)}
+
+/* hero */
+.hero2{padding:56px 0 64px!important}
+.hero2 .grid{display:grid;grid-template-columns:1.15fr .85fr;gap:48px;align-items:center}
+.hero2 h1{font-size:clamp(32px,5vw,52px);margin:14px 0 18px;text-wrap:balance}
+.hero2 h1 em{color:var(--green);font-style:italic;font-weight:500}
+.hero2 .sub{font-size:18px;color:var(--soft);max-width:560px}
+.ctas{display:flex;gap:12px;flex-wrap:wrap;margin-top:28px}
+.facts{display:flex;flex-wrap:wrap;gap:8px;margin-top:22px;list-style:none}
+.facts li{font-size:13.5px;background:var(--green-soft);color:var(--green);padding:6px 12px;border-radius:999px;font-weight:500}
+.btn.big{font-size:16px;padding:17px 30px}
+
+/* telas */
+.phone{width:100%;max-width:280px;margin:0 auto;border-radius:34px;padding:10px;background:var(--ink);box-shadow:0 24px 48px rgba(58,42,30,.22)}
+.phone img{border-radius:26px;width:100%;aspect-ratio:1/2;object-fit:cover;object-position:top}
+.hero2 .stage{position:relative;padding:20px 0}
+.hero2 .stage:before{content:"";position:absolute;inset:8% 4%;background:var(--rose-soft);border-radius:40px;transform:rotate(-4deg)}
+.hero2 .phone{position:relative}
+
+/* identificação */
+.sit{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;margin-top:32px}
+.sit div{background:var(--bg);border:1px solid var(--line);border-radius:20px;padding:20px 22px}
+.sit b{display:block;font-family:Lora,serif;font-size:19px;font-weight:600;margin-bottom:6px}
+.sit p{font-size:15px;color:var(--soft)}
+
+/* como funciona */
+.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:22px;margin-top:36px;counter-reset:s}
+.steps figure{counter-increment:s}
+.steps .phone{max-width:220px;padding:8px;border-radius:28px}
+.steps .phone img{border-radius:21px}
+.steps figcaption{margin-top:18px;text-align:center}
+.steps figcaption:before{content:counter(s);display:inline-grid;place-items:center;width:30px;height:30px;border-radius:50%;background:var(--green);color:#fff;font-weight:600;font-size:14px;margin-bottom:8px}
+.steps figcaption b{display:block;font-size:16px;font-weight:600}
+.steps figcaption span{display:block;font-size:14.5px;color:var(--soft);margin-top:4px}
+
+/* incluído */
+.inc{display:grid;grid-template-columns:1.2fr .8fr;gap:40px;align-items:start;margin-top:32px}
+.fases{list-style:none;display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.fases li{background:#fff;border:1px solid var(--line);border-radius:16px;padding:14px 16px;font-size:15px}
+.fases li small{display:block;font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--rose);font-weight:600}
+.fases li b{font-weight:600}
+.extra{display:grid;gap:14px;margin-top:14px}
+.extra div{border-radius:20px;padding:20px 22px}
+.extra b{display:block;font-family:Lora,serif;font-size:20px;font-weight:600;margin-bottom:6px}
+.extra p{font-size:15px}
+
+/* para quem / quem criou */
+.two{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:32px}
+.box2{background:var(--bg);border:1px solid var(--line);border-radius:22px;padding:26px}
+.box2 h3{font-size:22px;margin-bottom:12px}
+.box2 ul{list-style:none;display:grid;gap:10px}
+.box2 li{padding-left:24px;position:relative;font-size:15.5px}
+.box2 li:before{content:"";position:absolute;left:0;top:8px;width:10px;height:10px;border-radius:50%;background:var(--green)}
+.box2.no li:before{background:var(--rose)}
+.author{display:grid;grid-template-columns:220px 1fr;gap:36px;align-items:center}
+.author img{border-radius:24px;aspect-ratio:4/5;object-fit:cover;width:100%}
+.author p{color:var(--soft);margin-top:12px}
+
+/* oferta */
+.offer{max-width:620px;margin:32px auto 0;background:#fff;border:2px solid var(--green);border-radius:28px;padding:34px 30px;text-align:center}
+.offer .tag{background:var(--mustard-soft);color:#8A5F0C}
+.offer .price{white-space:nowrap;font-family:Lora,serif;font-size:60px;font-weight:600;color:var(--green);line-height:1;margin:18px 0 4px}
+.offer .price small{display:inline;font-size:24px;vertical-align:top;margin-right:4px}
+.offer .once{color:var(--soft);font-size:15px}
+.offer ul{list-style:none;text-align:left;display:grid;gap:10px;margin:24px 0 26px;border-top:1px solid var(--line);padding-top:22px}
+.offer li{padding-left:28px;position:relative;font-size:15.5px}
+.offer li:before{content:"✓";position:absolute;left:2px;top:0;color:var(--green);font-weight:700}
+.offer .btn{width:100%}
+.offer .fine{font-size:13px;color:var(--soft);margin-top:14px}
+
+/* grátis */
+.free{background:var(--rose-soft);border-radius:28px;padding:36px 30px;display:grid;grid-template-columns:1fr auto;gap:24px;align-items:center}
+.free h2{font-size:clamp(24px,3.4vw,32px)}
+.free p{color:var(--ink);margin-top:8px;opacity:.85}
+.btn.rose-ghost{background:#fff;color:var(--rose);border-color:var(--rose)}
+.btn.rose-ghost:hover{background:var(--rose);color:#fff}
+
+/* faq */
+.faq{max-width:760px;margin:28px auto 0}
+.faq details{background:#fff;border:1px solid var(--line);border-radius:18px;margin-bottom:10px}
+.faq summary{cursor:pointer;list-style:none;padding:18px 52px 18px 22px;font-weight:600;position:relative}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary:after{content:"+";position:absolute;right:22px;top:14px;font-size:22px;color:var(--green);font-weight:500}
+.faq details[open] summary:after{content:"−"}
+.faq details p{padding:0 22px 20px;color:var(--soft);font-size:15.5px}
+
+/* final */
+.final{background:var(--green);color:#FBF6EF;text-align:center;border-radius:32px;padding:48px 28px}
+.final h2{color:#fff}
+.final p{color:#DCEBE7;max-width:560px;margin:14px auto 26px;font-size:17px}
+.final .btn{background:#FBF6EF;color:var(--green);border-color:#FBF6EF}
+.final .btn:hover{background:#fff}
+.final a.sec{display:block;margin-top:16px;color:#fff;font-size:15px}
+
+@media (max-width:860px){
+  .hero2 .grid,.inc,.two,.author{grid-template-columns:1fr}
+  .hero2 .stage{order:2}
+  .steps{grid-template-columns:1fr 1fr;gap:28px 16px}
+  .author img{max-width:240px}
+  .free{grid-template-columns:1fr}
+}
+@media (max-width:520px){
+  .lp section{padding:48px 0}
+  .hero2{padding:32px 0 48px!important}
+  .ctas .btn{width:100%}
+  .fases{grid-template-columns:1fr}
+  .steps .phone{max-width:170px}
+  .offer{padding:28px 20px}
+  .offer .price{font-size:52px}
+}
+</style>
+</head>
+<body class="lp">
+
+<header class="lp-top"><div class="wrap">
+  <a class="logo" href="index.html">Rafaella <span>Silva</span></a>
+  <a class="mini" href="#oferta">Quero acessar</a>
+</div></header>
+
+<!-- 1 · PRIMEIRA IMPRESSÃO -->
+<section class="hero2"><div class="wrap grid">
+  <div>
+    <div class="k">Laboratório de Cenas + jogo Trilha das Escolhas</div>
+    <h1>Seu filho pode aprender a <em>pensar antes de agir</em>, experimentando situações da adolescência de um jeito interativo e sem julgamentos.</h1>
+    <p class="sub">Uma experiência digital criada para adolescentes explorarem situações do cotidiano, conhecerem diferentes possibilidades de escolha e refletirem sobre suas decisões, no próprio ritmo.</p>
+    <div class="ctas">
+      <a class="btn big" href="#oferta">QUERO CONHECER O LABORATÓRIO</a>
+      <a class="btn ghost" href="laboratorio-gratis.html">Testar uma fase grátis</a>
+    </div>
+    <ul class="facts"><li>13 a 15 anos</li><li>Funciona no celular</li><li>Sem instalar aplicativo</li><li>Sem cadastro</li></ul>
+  </div>
+  <div class="stage"><div class="phone"><img src="img/lab-cena.jpg" alt="Tela real do Laboratório: uma cena da adolescência e três possibilidades de escolha" width="600" height="1200"></div></div>
+</div></section>
+
+<!-- 2 · IDENTIFICAÇÃO -->
+<section class="alt"><div class="wrap center">
+  <div class="k">Situações do dia a dia</div>
+  <h2>A adolescência traz escolhas novas o tempo todo</h2>
+  <p class="lead">E nem sempre o adolescente quer, ou consegue, conversar sobre elas com um adulto. Algumas situações que costumam gerar dúvidas nos responsáveis:</p>
+  <div class="sit" style="text-align:left">
+    <div><b>Pressão dos amigos</b><p>Fazer algo só para não ficar de fora do grupo.</p></div>
+    <div><b>Pertencimento</b><p>Querer ser aceito e ter medo de parecer diferente.</p></div>
+    <div><b>Conflitos</b><p>Responder no impulso e não saber de onde veio a irritação.</p></div>
+    <div><b>Comparação</b><p>Fechar as redes sociais se sentindo pior do que abriu.</p></div>
+    <div><b>Situações sociais</b><p>Sentir que todo mundo está olhando depois de um deslize.</p></div>
+    <div><b>Decisões</b><p>Escolher entre o que quer, o que o grupo quer e o que acha certo.</p></div>
+  </div>
+  <p class="lead" style="margin-top:24px;font-size:15px">Cada adolescente vive essas situações de um jeito. Nem todos passam pelas mesmas experiências.</p>
+</div></section>
+
+<!-- 3 · POR DENTRO -->
+<section><div class="wrap center">
+  <div class="k">A experiência por dentro</div>
+  <h2>Como funciona uma cena</h2>
+  <p class="lead">Estas são telas reais do Laboratório.</p>
+  <div class="steps">
+    <figure><div class="phone"><img src="img/lab-cena-inicio.jpg" alt="Tela da cena com a situação descrita" width="600" height="1200"></div>
+      <figcaption><b>Conhece a situação</b><span>Uma cena curta do cotidiano.</span></figcaption></figure>
+    <figure><div class="phone"><img src="img/lab-cena.jpg" alt="Tela com três possibilidades de escolha e uma delas marcada" width="600" height="1200"></div>
+      <figcaption><b>Analisa três possibilidades</b><span>Escolhe a que mais parece com ele. Não há resposta certa.</span></figcaption></figure>
+    <figure><div class="phone"><img src="img/lab-por-tras.jpg" alt="Tela com a explicação educativa sobre a situação" width="600" height="1200"></div>
+      <figcaption><b>Explora a explicação</b><span>O que pode estar envolvido naquela situação.</span></figcaption></figure>
+    <figure><div class="phone"><img src="img/lab-observe.jpg" alt="Tela do momento de auto-observação" width="600" height="1200"></div>
+      <figcaption><b>Reflete sobre si</b><span>Um momento de auto-observação, sem precisar contar nada a ninguém.</span></figcaption></figure>
+  </div>
+</div></section>
+
+<!-- 4 · O QUE ESTÁ INCLUÍDO -->
+<section class="alt"><div class="wrap">
+  <div class="k">O que está incluído</div>
+  <h2>8 fases, um jogo e uma área para os pais</h2>
+  <div class="inc">
+    <ol class="fases">
+      <li><small>Fase 1</small><b>Medo de ficar de fora</b></li>
+      <li><small>Fase 2</small><b>Duas emoções ao mesmo tempo</b></li>
+      <li><small>Fase 3</small><b>Por que eu não conto nada</b></li>
+      <li><small>Fase 4</small><b>Me comparando o tempo todo</b></li>
+      <li><small>Fase 5</small><b>Sono e humor</b></li>
+      <li><small>Fase 6</small><b>Todo mundo está olhando</b></li>
+      <li><small>Fase 7</small><b>Irritado sem saber por quê</b></li>
+      <li><small>Fase 8</small><b>Quem eu sou?</b></li>
+    </ol>
+    <div>
+      <div class="phone" style="max-width:230px"><img src="img/lab-pais.jpg" alt="Tela real da área para os pais" width="600" height="1200"></div>
+      <div class="extra">
+        <div style="background:var(--mustard-soft)"><b>Jogo Trilha das Escolhas</b><p>O adolescente acompanha um personagem e decide o que ele faz. No final, vê o mapa do caminho que percorreu.</p></div>
+        <div style="background:var(--green-soft)"><b>Área para os pais</b><p>O que cada fase aborda e perguntas para iniciar uma conversa com o seu filho.</p></div>
+      </div>
+    </div>
+  </div>
+</div></section>
+
+<!-- 5 · PARA QUEM É -->
+<section><div class="wrap">
+  <div class="center"><div class="k">Para quem é</div><h2>Pensado para adolescentes de 13 a 15 anos e seus responsáveis</h2></div>
+  <div class="two">
+    <div class="box2"><h3>O que é</h3><ul>
+      <li>Uma experiência educativa e interativa</li>
+      <li>Para o adolescente explorar sozinho, no próprio ritmo</li>
+      <li>As respostas ficam salvas só no aparelho de quem usa</li>
+      <li>Ele não precisa compartilhar experiências íntimas</li>
+    </ul></div>
+    <div class="box2 no"><h3>O que não é</h3><ul>
+      <li>Não é terapia nem atendimento psicológico</li>
+      <li>Não é avaliação psicológica nem diagnóstico</li>
+      <li>Não substitui o acompanhamento de um profissional</li>
+    </ul></div>
+  </div>
+</div></section>
+
+<!-- 6 · QUEM CRIOU -->
+<section class="alt"><div class="wrap author">
+  <img src="img/rafa.jpg" alt="Rafaella Silva, psicóloga">
+  <div>
+    <div class="k">Quem criou</div>
+    <h2 style="margin-top:10px">Rafaella Silva</h2>
+    <p style="color:var(--ink);font-weight:500;margin-top:4px">Psicóloga · CRP 22/07292</p>
+    <p>Sou psicóloga e atendo crianças, pré-adolescentes, adolescentes e suas famílias em São Luís (MA).</p>
+    <p>Criei o Laboratório a partir de conhecimentos da Psicologia, para que o adolescente tenha um espaço onde possa pensar sobre situações comuns dessa fase sem sermão, sem plateia e sem se expor.</p>
+  </div>
+</div></section>
+
+<!-- 7 · OFERTA -->
+<section id="oferta"><div class="wrap">
+  <div class="center"><div class="k">Acesso</div><h2>Laboratório de Cenas + Trilha das Escolhas</h2></div>
+  <div class="offer">
+    <span class="tag">Preço de lançamento</span>
+    <div class="price"><small>R$</small>27</div>
+    <div class="once">pagamento único</div>
+    <ul>
+      <li>8 fases com situações da adolescência</li>
+      <li>Jogo Trilha das Escolhas, com mapa do caminho</li>
+      <li>Área para os pais, com perguntas para iniciar conversas</li>
+      <li>Acesso por 1 ano, pelo celular ou computador</li>
+      <li>O link de acesso chega no e-mail usado na compra</li>
+    </ul>
+    <a class="btn big" href="https://pay.hub.la/QiSJe9kpNAAgZHGlHJb1" target="_blank" rel="noopener">QUERO ACESSAR O LABORATÓRIO</a>
+    <p class="fine">Pagamento pelo checkout seguro da Hubla. Material educativo, não substitui acompanhamento psicológico.</p>
+  </div>
+</div></section>
+
+<!-- 8 · EXPERIMENTE -->
+<section style="padding-top:0"><div class="wrap">
+  <div class="free">
+    <div><h2>Quer ver antes de comprar?</h2><p>A Fase 1 é gratuita. Seu filho pode experimentar agora, no celular, em cerca de 5 minutos.</p></div>
+    <a class="btn rose-ghost" href="laboratorio-gratis.html">Experimentar a Fase 1 grátis</a>
+  </div>
+</div></section>
+
+<!-- 9 · DÚVIDAS -->
+<section class="alt"><div class="wrap">
+  <div class="center"><div class="k">Dúvidas frequentes</div><h2>Perguntas e respostas</h2></div>
+  <div class="faq">
+    <details><summary>Para qual idade é indicado?</summary><p>Para adolescentes de 13 a 15 anos. A compra e o acompanhamento ficam com o responsável.</p></details>
+    <details><summary>Como funciona?</summary><p>É um site interativo. O adolescente escolhe uma fase, lê a cena, analisa três possibilidades de escolha, explora a explicação educativa e termina com um momento de auto-observação.</p></details>
+    <details><summary>Precisa instalar aplicativo?</summary><p>Não. Abre direto no navegador do celular ou do computador, sem instalação e sem cadastro.</p></details>
+    <details><summary>O adolescente precisa fazer tudo de uma vez?</summary><p>Não. Cada fase leva cerca de 5 minutos e pode ser feita no tempo dele. O progresso fica salvo no próprio aparelho.</p></details>
+    <details><summary>É um curso ou um jogo?</summary><p>Nem um nem outro: é uma experiência interativa educativa. Inclui também o jogo Trilha das Escolhas, em que ele decide o caminho de um personagem.</p></details>
+    <details><summary>O que os pais recebem?</summary><p>Uma área própria, com o que cada fase aborda e perguntas para iniciar uma conversa, sem precisar perguntar sobre as respostas do adolescente.</p></details>
+    <details><summary>Como é feito o acesso?</summary><p>Depois da confirmação do pagamento, o link de acesso chega no e-mail usado na compra.</p></details>
+    <details><summary>Por quanto tempo o acesso fica disponível?</summary><p>Por 1 ano a partir da compra.</p></details>
+    <details><summary>Como funciona o pagamento?</summary><p>Pagamento único de R$27, feito pelo checkout da Hubla. Não é assinatura e não há cobranças mensais.</p></details>
+  </div>
+</div></section>
+
+<!-- 10 · CHAMADA FINAL -->
+<section><div class="wrap">
+  <div class="final">
+    <h2>Um espaço para ele pensar antes de agir</h2>
+    <p>Situações reais da adolescência, três possibilidades de escolha e um momento para se observar. No celular, no ritmo dele.</p>
+    <a class="btn big" href="https://pay.hub.la/QiSJe9kpNAAgZHGlHJb1" target="_blank" rel="noopener">QUERO ACESSAR O LABORATÓRIO</a>
+    <a class="sec" href="laboratorio-gratis.html">ou experimente a Fase 1 grátis</a>
+  </div>
+</div></section>
+
+<footer><div class="wrap">
+  <div><b style="color:var(--ink)">Rafaella Silva</b> · Psicóloga · CRP 22/07292<div class="disc">Material educativo. Não substitui avaliação nem acompanhamento psicológico. Em caso de urgência, ligue para o CVV (188) ou o SAMU (192).</div></div>
+  <div><a href="index.html">Início</a></div>
+</div></footer>
+</body>
+</html>
